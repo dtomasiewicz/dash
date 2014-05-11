@@ -1,0 +1,7 @@
+database: dash.db
+username: admin
+password: password
+transmission:
+  username: transmission
+  password: password
+allowwebcam: true

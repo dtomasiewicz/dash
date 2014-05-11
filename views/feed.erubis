@@ -1,0 +1,11 @@
+<h1>Feed: <%= feed.id %> (<%== link_to feed.source %>)</h1>
+
+<h2>All Items</h2>
+
+<ul>
+  <% torrents.each do |torrent| %>
+    <li style="font-weight: <%= torrent.added_at > Time.now.to_i-86400 ? 'bold' : 'normal' %>">
+      <%= Time.at(torrent.added_at).strftime '%Y-%m-%d %H:%M' %> <%= torrent.name || torrent.id %>
+    </li>
+  <% end %>
+</ul>

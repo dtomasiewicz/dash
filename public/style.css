@@ -1,0 +1,6 @@
+.discrete {
+  display: inline;
+}
+p, ul {
+  margin: 15px 0;
+}

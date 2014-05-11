@@ -1,0 +1,49 @@
+<h1>Torrent Feeds</h1>
+
+<h2>Recent Items</h2>
+
+<% if recents.length > 0 %>
+  <ul>
+    <% recents.each do |torrent| %>
+      <li style="font-weight: <%= torrent.added_at > Time.now.to_i-86400 ? 'bold' : 'normal' %>">
+        <%= Time.at(torrent.added_at).strftime '%Y-%m-%d %H:%M' %> <%= torrent.name || torrent.id %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No new items.</p>
+<% end %>
+
+<h2>Watched Feeds</h2>
+
+<form method="post">
+  <p>
+    <label>Add new feed: <input name="id" placeholder="identifier"></label> 
+    <input name="source" placeholder="source">
+    <label>parser: <select name="decoder">
+      <option value="scrape">HTML scrape</option>
+    </select></label>
+    <input type="submit" value="add">
+  </p>
+</form>
+
+<ul>
+  <% feeds.each do |feed| %>
+    <li>
+      <%== link_to "/feeds/#{feed.id}", feed.id %> (<%= feed.decoder %>)
+      <form method="post" action="/feeds/scrape" class="discrete">
+        <input type="hidden" name="id" value="<%= feed.id %>">
+        <input type="submit" value="scrape now">
+      </form>
+      <form method="post" class="discrete">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="id" value="<%= feed.id %>">
+        <input type="submit" value="delete">
+      </form>
+    </li>
+  <% end %>
+</ul>
+
+<% if last_update %>
+  <p>Last update: <%= last_update %></p>
+<% end %>

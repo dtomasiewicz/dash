@@ -1,0 +1,1 @@
+<video src="<%= url %>" autoplay style="border: 1px solid #000">Video tag not supported :(</video>

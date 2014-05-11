@@ -1,0 +1,11 @@
+[Unit]
+Description=Intranet dashboard
+
+[Service]
+Type=simple
+User=dash
+WorkingDirectory=/home/dash
+ExecStart=/home/dash/dash.rb
+
+[Install]
+WantedBy=multi-user.target
