@@ -19,8 +19,8 @@ Sequel.migration do
     end
 
     create_table :feed_torrents do
-      foreign_key :feed_id, :feeds, null: false
-      foreign_key :torrent_id, :torrents, null: false
+      foreign_key :feed_id, :feeds, type: String, null: false
+      foreign_key :torrent_id, :torrents, type: String, null: false
       primary_key [:feed_id, :torrent_id]
     end
 
