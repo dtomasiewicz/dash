@@ -14,6 +14,7 @@ use Rack::Auth::Basic, "Restricted Area" do |username, password|
 end
 
 # sinatra setup
+set :environment, :production
 set :erb, escape_html: true
 
 # database setup

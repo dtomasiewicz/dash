@@ -38,6 +38,15 @@ module Transmission
       end
     end
 
+    def get_torrents fields, ids = []
+      result = rpc 'torrent-get', 'fields' => fields, 'ids' => ids
+      if result['result'] == 'success'
+        result['arguments']['torrents']
+      else
+        raise Failure.new result['result']
+      end
+    end
+
     private
 
     def http_call body = nil

@@ -28,6 +28,7 @@ class Torrent < Sequel::Model
 
   unrestrict_primary_key
   one_to_many :feed_torrents
+  one_to_many :torrent_files
   many_to_many :feeds, join_table: :feed_torrents
 
   def before_destroy
@@ -40,6 +41,13 @@ class FeedTorrent < Sequel::Model
 
   unrestrict_primary_key
   many_to_one :feed
+  many_to_one :torrent
+
+end
+
+class TorrentFiles < Sequel::Model
+  
+  unrestrict_primary_key
   many_to_one :torrent
 
 end

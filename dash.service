@@ -1,11 +1,11 @@
 [Unit]
-Description=Intranet dashboard
+Description=Frawst.com intranet dashboard
 
 [Service]
 Type=simple
-User=dash
-WorkingDirectory=/home/dash
-ExecStart=/home/dash/dash.rb
+User=daniel
+WorkingDirectory=/home/daniel/dash
+ExecStart=/home/daniel/.rvm/bin/dash_bundle exec ./dash.rb
 
 [Install]
 WantedBy=multi-user.target
