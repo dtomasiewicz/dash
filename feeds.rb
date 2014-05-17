@@ -92,7 +92,7 @@ def scrape_all_feeds
 end
 
 def update_torrents
-  torrents = Torrent[state: Torrent::STATE_DOWNLOADING]
+  torrents = Torrent.where state: Torrent::STATE_DOWNLOADING
   infos = TRANSMISSION.get_torrents(['hashString', 'downloadDir', 'files'], torrents.map(&:transmission_hash)).map do |info|
     [info['hashString'], info]
   end

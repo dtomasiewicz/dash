@@ -4,9 +4,7 @@ GEM
     daemons (1.1.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    mini_portile (0.5.2)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
+    nokogiri (1.5.5)
     rack (1.5.2)
     rack-protection (1.5.1)
       rack
@@ -27,7 +25,7 @@ PLATFORMS
 
 DEPENDENCIES
   erubis
-  nokogiri
+  nokogiri (= 1.5.5)
   sequel
   sinatra
   sqlite3
