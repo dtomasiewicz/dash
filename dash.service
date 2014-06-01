@@ -3,9 +3,9 @@ Description=Frawst.com intranet dashboard
 
 [Service]
 Type=simple
-User=daniel
-WorkingDirectory=/home/daniel/dash
-ExecStart=/home/daniel/.rvm/bin/dash_bundle exec ./dash.rb
+User=dash
+WorkingDirectory=/srv/dash
+ExecStart=/path/to/bundle exec ./dash.rb
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,23 @@
+<h1>Torrents</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Torrent</th>
+      <th>State</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% torrents.each do |torrent| %>
+    <tr>
+      <td><%== link_to torrent.name, torrent.source %></td>
+      <td><%= torrent.state %></td>
+      <td>
+        <form action="/torrents/<%= escape torrent.id %>/start" method="post" class="discrete">
+          <input type="submit" value="start">
+        </form>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

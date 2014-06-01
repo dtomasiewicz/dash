@@ -12,6 +12,11 @@ get '/feeds' do
   erb :feeds, locals: {feeds: feeds, recents: recents, last_update: last_update}
 end
 
+get '/torrents' do
+  torrents = Torrent.all
+  erb :torrents, locals: {torrents: torrents}
+end
+
 get '/feeds/:id' do
   feed = Feed[params[:id]]
   torrents = feed.torrents
@@ -39,6 +44,18 @@ post '/feeds' do
     end
   end
   redirect to('/feeds')
+end
+
+post '/torrents/:id/start' do
+  if torrent = Torrent[unescape params[:id]]
+    puts "STARTING #{torrent.id}"
+    if info = TRANSMISSION.add_torrent(torrent.source)
+      torrent.name = info['name']
+      torrent.state = Torrent::STATE_DOWNLOADING
+      torrent.save
+    end
+  end
+  redirect to('/torrents')
 end
 
 post '/feeds/scrape' do
@@ -93,9 +110,9 @@ end
 
 def update_torrents
   torrents = Torrent.where state: Torrent::STATE_DOWNLOADING
-  infos = TRANSMISSION.get_torrents(['hashString', 'downloadDir', 'files'], torrents.map(&:transmission_hash)).map do |info|
+  infos = Hash[TRANSMISSION.get_torrents(['hashString', 'downloadDir', 'files'], torrents.map(&:transmission_hash)).map do |info|
     [info['hashString'], info]
-  end
+  end]
 
   newly_completed = []
 

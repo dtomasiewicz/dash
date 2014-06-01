@@ -2,5 +2,4 @@
 
 <h2><%== link_to '/feeds', 'Torrent Feeds' %></h2>
 <h2><%== link_to '/webcam', 'ThinkPad Webcam' %></h2>
-<h2><%== link_to '//torrents.frawst.com', 'Transmission Web UI' %></h2>
-<h2><%== link_to '//print.frawst.com', 'Print Web UI' %></h2>
+<h2><%== link_to 'http://torrents.frawst.com', 'Transmission Web UI' %></h2>
