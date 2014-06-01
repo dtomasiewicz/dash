@@ -1,11 +1,31 @@
+<%== erb :transmission %>
+
 <h1>Feed: <%= feed.id %> (<%== link_to feed.source %>)</h1>
+
 
 <h2>All Items</h2>
 
-<ul>
-  <% torrents.each do |torrent| %>
-    <li style="font-weight: <%= torrent.added_at > Time.now.to_i-86400 ? 'bold' : 'normal' %>">
-      <%= Time.at(torrent.added_at).strftime '%Y-%m-%d %H:%M' %> <%= torrent.name || torrent.id %>
-    </li>
+<table class="torrent-list">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Torrent</th>
+      <th>State</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% torrents.each do |t| %>
+    <tr class="<%= t.added_at > Time.now.to_i-86400 ? 'new' : 'old' %>">
+      <td><%= Time.at(t.added_at).strftime '%Y-%m-%d %H:%M' %></td>
+      <td><%== link_to t.source, (t.name || t.id) %></td>
+      <td><%= t.state %></td>
+      <td>
+        <form action="/torrents/<%= escape t.id %>/start" method="post" class="discrete">
+          <input type="submit" value="start">
+        </form>
+      </td>
+    </tr>
   <% end %>
-</ul>
+  </tbody>
+</table>

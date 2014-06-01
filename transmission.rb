@@ -7,6 +7,8 @@ module Transmission
 
   class Client
 
+    attr_reader :error
+
     class RPCError < StandardError
       attr_reader :response
       def initialize response
@@ -27,6 +29,10 @@ module Transmission
         'request_uri' => '/transmission/rpc'
       }.merge config
       @http = Net::HTTP.new @config['host'], @config['port']
+    end
+
+    def server
+      "#{@config['host']}:#{@config['port']}#{@config['request_uri']}"
     end
 
     def add_torrent filename
@@ -65,7 +71,12 @@ module Transmission
 
     def rpc method, arguments = {}, tag = nil
       http_response = http_call JSON.dump('method' => method, 'arguments' => arguments, 'tag' => tag)
-      raise RPCError.new(http_response) unless Net::HTTPOK === http_response
+      if !(Net::HTTPOK === http_response)
+        @error = RPCError.new http_response
+        raise @error
+      else
+        @error = nil
+      end
       JSON.parse http_response.body
     end
 

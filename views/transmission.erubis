@@ -1,0 +1,12 @@
+<p class="transmission-state">Transmission:
+<% if TRANSMISSION %>
+  Connected to <%= TRANSMISSION.server %>
+  <% if error = TRANSMISSION.error %>
+    (<%= error.inspect %>)
+  <% else %>
+    (OK)
+  <% end %>
+<% else %>
+  DISCONNECTED
+<% end %>
+</p>

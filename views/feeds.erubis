@@ -1,3 +1,5 @@
+<%== erb :transmission %>
+
 <h1>Torrent Feeds</h1>
 
 <h2>Recent Items</h2>
