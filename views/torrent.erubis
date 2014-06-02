@@ -1,3 +1,5 @@
+<%== erb :transmission %>
+
 <h1>Torrent: <%== link_to torrent.source, torrent.name %> (<%= torrent.state %>)</h1>
 
 <h2>Files</h2>

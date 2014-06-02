@@ -4,4 +4,5 @@ password: password
 transmission:
   username: transmission
   password: password
+xbmc_tv: media/tv
 allowwebcam: true

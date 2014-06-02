@@ -19,9 +19,10 @@ Sequel.migration do
     end
 
     create_table :feed_torrents do
+      primary_key :id, auto_increment: true
       foreign_key :feed_id, :feeds, type: String, null: false
       foreign_key :torrent_id, :torrents, type: String, null: false
-      primary_key [:feed_id, :torrent_id]
+      index [:feed_id, :torrent_id], unique: true
     end
 
   end

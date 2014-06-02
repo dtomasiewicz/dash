@@ -20,11 +20,7 @@
       <td><%= Time.at(t.added_at).strftime '%Y-%m-%d %H:%M' %></td>
       <td><%== link_to "/torrents/#{escape t.id}", t.name %></td>
       <td><%= t.state %></td>
-      <td>
-        <form action="/torrents/<%= escape t.id %>/start" method="post" class="discrete">
-          <input type="submit" value="start">
-        </form>
-      </td>
+      <td><%== button_to "/torrents/#{escape t.id}/start", 'start' %></td>
     </tr>
   <% end %>
   </tbody>

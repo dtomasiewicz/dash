@@ -18,3 +18,8 @@ post '/torrents/:id/start' do
     raise "Torrent doesn't exist!"
   end
 end
+
+post '/torrents/update' do
+  TORRENTD.update_now
+  redirect to(unescape params[:return_to])
+end

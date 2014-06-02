@@ -6,7 +6,6 @@ class Feed < Sequel::Model
 
   Item = Struct.new :id, :name, :source
 
-  unrestrict_primary_key
   one_to_many :feed_torrents
   many_to_many :torrents, join_table: :feed_torrents
 
@@ -18,15 +17,16 @@ class Feed < Sequel::Model
     send :"#{decoder}_pull", source
   end
 
+  private
+
   def scrape_pull(uri)
     dom = Nokogiri::HTML open(uri)
+    self.id = dom.css('td.section_post_header b').first.text if !id
     dom.css('tr.forum_header_border').map do |row|
       link = row.css('a.magnet').first
       link ? magnet_source(link['href']) : nil
     end.compact.reverse
   end
-
-  private
 
   def magnet_source(magnet_uri)
     raise "not a magnet URI: #{magnet_uri}" unless magnet_uri =~ /^magnet:\?/

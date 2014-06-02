@@ -11,4 +11,11 @@ helpers do
   def unescape(str)
     Rack::Utils.unescape str
   end
+  def button_to(url, text, opts = {})
+    method = opts[:method] || 'post'
+    form_method = method.to_s == 'get' ? 'get' : 'post'
+    %Q{<form action="#{h url}" method="#{form_method}" style="display: inline">}+
+      %Q{<input type="hidden" name="_method" value="#{method}"><input type="submit" value="#{h text}">}+
+    "</form>"
+  end
 end

@@ -15,6 +15,7 @@ class Torrent < Sequel::Model
 
   def before_destroy
     feed_torrents.each &:destroy
+    torrent_files.each &:destroy
   end
 
 end

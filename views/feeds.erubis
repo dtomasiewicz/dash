@@ -20,8 +20,7 @@
 
 <form method="post">
   <p>
-    <label>Add new feed: <input name="id" placeholder="identifier"></label> 
-    <input name="source" placeholder="source">
+    <label>Add new feed: <input name="source" placeholder="source"></label> 
     <label>parser: <select name="decoder">
       <option value="scrape">HTML scrape</option>
     </select></label>
@@ -32,16 +31,9 @@
 <ul>
   <% feeds.each do |feed| %>
     <li>
-      <%== link_to "/feeds/#{feed.id}", feed.id %> (<%= feed.decoder %>)
-      <form method="post" action="/feeds/scrape" class="discrete">
-        <input type="hidden" name="id" value="<%= feed.id %>">
-        <input type="submit" value="scrape now">
-      </form>
-      <form method="post" class="discrete">
-        <input type="hidden" name="_method" value="delete">
-        <input type="hidden" name="id" value="<%= feed.id %>">
-        <input type="submit" value="delete">
-      </form>
+      <%== link_to "/feeds/#{escape feed.id}", feed.id %> (<%= feed.decoder %>)
+      <%== button_to "/feeds/#{escape feed.id}/scrape", 'scrape now' %>
+      <%== button_to "/feeds/#{escape feed.id}", 'delete', method: 'delete' %>
     </li>
   <% end %>
 </ul>

@@ -1,12 +1,14 @@
-<p class="transmission-state">Torrent client:
+<div class="transmission-state">Torrent client:
 <% if client = TORRENTD.client %>
   Connected to <%= client.server %>
   <% if error = client.error %>
     (<%= error.inspect %>)
   <% else %>
     (OK)
-  <% end %>
+  <% end %> 
+  <%== button_to "/torrents/update?return_to=#{escape request.fullpath}", "update now" %> 
+  <%== button_to "/feeds/pull?return_to=#{escape request.fullpath}", "pull now" %>
 <% else %>
   DISCONNECTED
 <% end %>
-</p>
+</div>
