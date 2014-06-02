@@ -7,10 +7,6 @@ class TorrentDaemon
     @last_update = nil
   end
 
-  def on_file_complete(&block)
-    @on_file_complete = block
-  end
-
   # TODO pass in frequency as arguments
   def start
     skip_scrape = 0
@@ -75,43 +71,41 @@ class TorrentDaemon
   def update_downloading_torrents
     torrents = Torrent.where state: Torrent::STATE_DOWNLOADING
     hashes = torrents.map &:transmission_hash
-    puts "pulling torrent info for #{hashes}"
     infos = Hash[@client.get_torrents(['hashString', 'downloadDir', 'files'], hashes).map do |info|
-      puts "PULLED TORRENT INFO: #{info}"
       [info['hashString'], info]
     end]
 
-    new_files = []
-
+    puts "UPDATING TORRENT STATES #{hashes}"
     DB.transaction do
       torrents.each do |torrent|
         if info = infos[torrent.transmission_hash]
-          torrent.download_dir = info['downloadDir']
-          files = Hash[torrent.torrent_files.map{|f| [f.name, f]}]
-          all_complete = true
-          info['files'].each do |file_info|
-            all_complete = false unless complete = file_info['bytesCompleted'] == file_info['length']
-            if file = files[file_info['name']]
-              already_complete = file.complete
-              file.complete = complete
-              file.save_changes
-            else
-              already_complete = false
-              torrent.add_torrent_file name: file_info['name'], complete: complete
-            end
-            if complete && !already_complete
-              new_files << file
-            end
-          end
-          torrent.state = Torrent::STATE_COMPLETE if all_complete
+          update_torrent_with_info torrent, info
         else
           torrent.state = Torrent::STATE_MISSING
         end
         torrent.save_changes
       end
     end
-
-    new_files.each{|f| @on_file_complete.call f} if @on_file_complete
   end
 
+end
+
+def update_torrent_with_info(torrent, info)
+  torrent.download_dir = info['downloadDir']
+  return if info['files'].empty? # file list not yet downloaded
+
+  files = Hash[torrent.torrent_files.map{|f| [f.name, f]}]
+  all_complete = true
+  info['files'].each do |file_info|
+    all_complete = false unless complete = file_info['bytesCompleted'] == file_info['length']
+    if file = files[file_info['name']]
+      already_complete = file.complete
+      file.complete = complete
+      file.save_changes
+    else
+      already_complete = false
+      torrent.add_torrent_file name: file_info['name'], complete: complete
+    end
+  end
+  torrent.state = Torrent::STATE_COMPLETE if all_complete
 end

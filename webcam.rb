@@ -34,14 +34,3 @@ class WebcamController
   end
 
 end
-
-
-get '/webcam' do
-  if CONFIG['allowwebcam']
-    WEBCAM.start
-    sleep 2 # wait for it to initialize
-    erb :webcam, locals: {url: WEBCAM.url}
-  else
-    "Webcam not enabled :("
-  end
-end

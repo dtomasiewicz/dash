@@ -1,7 +1,8 @@
 = Setup/Update =
 
+systemctl stop dash
 bundle install && sequel -m migrations dash.db
-systemctl daemon-reload
+systemctl daemon-reload && systemctl start dash
 
 = systemd unit file (new installations only) =
 
