@@ -18,7 +18,7 @@
   <% torrents.each do |t| %>
     <tr class="<%= t.added_at > Time.now.to_i-86400 ? 'new' : 'old' %>">
       <td><%= Time.at(t.added_at).strftime '%Y-%m-%d %H:%M' %></td>
-      <td><%== link_to t.source, (t.name || t.id) %></td>
+      <td><%== link_to "/torrents/#{escape t.id}", t.name %></td>
       <td><%= t.state %></td>
       <td>
         <form action="/torrents/<%= escape t.id %>/start" method="post" class="discrete">

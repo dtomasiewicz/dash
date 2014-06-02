@@ -19,13 +19,29 @@ set :erb, escape_html: true
 
 # database setup
 DB = Sequel.sqlite CONFIG['database']
-require_relative 'models'
-
-# actions
-get '/' do
-  erb :home
+%w{feed torrent feed_torrent torrent_file}.each do |m|
+  require_relative "models/#{m}"
 end
 
-require_relative 'webcam'
-require_relative 'feeds'
+# actions
+require_relative 'actions/main'
+
+# torrent daemon
+if CONFIG['transmission']
+  require_relative 'transmission'
+  require_relative 'torrentd'
+  TORRENTD = TorrentDaemon.new Transmission::Client.new(CONFIG['transmission'])
+  require_relative 'actions/feeds'
+  require_relative 'actions/torrents'
+  Thread.new{TORRENTD.start}
+end
+
+# webcam
+if CONFIG['allowwebcam']
+  require_relative 'webcam'
+  WEBCAM = WebcamController.new
+  at_exit { WEBCAM.stop }
+  require_relative 'actions/webcam'
+end
+
 require_relative 'helpers'

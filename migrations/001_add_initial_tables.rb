@@ -9,7 +9,7 @@ Sequel.migration do
     end
 
     create_table :torrents do
-      # not keying off hashString :so that we can have skipped torrents
+      # not keying off hashString so that we can have skipped torrents
       String :id, null: false, primary_key: true
       Integer :added_at, null: false
       String :state, null: false

@@ -1,7 +1,7 @@
-<p class="transmission-state">Transmission:
-<% if TRANSMISSION %>
-  Connected to <%= TRANSMISSION.server %>
-  <% if error = TRANSMISSION.error %>
+<p class="transmission-state">Torrent client:
+<% if client = TORRENTD.client %>
+  Connected to <%= client.server %>
+  <% if error = client.error %>
     (<%= error.inspect %>)
   <% else %>
     (OK)

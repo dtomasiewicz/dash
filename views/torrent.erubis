@@ -1,0 +1,20 @@
+<h1>Torrent: <%== link_to torrent.source, torrent.name %> (<%= torrent.state %>)</h1>
+
+<h2>Files</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Complete?</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% torrent.torrent_files.each do |file| %>
+    <tr>
+      <td><%= file.full_path || file.name %></td>
+      <td><%= file.complete ? 'Yes' : 'No' %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

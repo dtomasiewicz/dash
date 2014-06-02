@@ -1,5 +1,3 @@
-# webcam streaming
-
 class WebcamController
 
   attr_reader :url
@@ -37,8 +35,6 @@ class WebcamController
 
 end
 
-WEBCAM = WebcamController.new
-at_exit { WEBCAM.stop }
 
 get '/webcam' do
   if CONFIG['allowwebcam']

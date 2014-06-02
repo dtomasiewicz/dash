@@ -46,6 +46,6 @@
   <% end %>
 </ul>
 
-<% if last_update %>
+<% if last_update = TORRENTD.last_update %>
   <p>Last update: <%= last_update %></p>
 <% end %>
