@@ -1,4 +1,8 @@
-# Setup Dash (or update)
+# Dash
+
+This software acts as a dashboard for my home intranet.
+
+## Setup Dash (or update)
 
 ```
 systemctl stop dash
@@ -6,7 +10,7 @@ bundle install && sequel -m migrations dash.db
 systemctl daemon-reload && systemctl start dash
 ```
 
-# systemd unit file (new installations only)
+## systemd unit file (new installations only)
 
 First, edit `dash.service` to use the correct `bundle` path, then run:
 
